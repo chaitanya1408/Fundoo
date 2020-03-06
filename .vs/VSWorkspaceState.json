@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\CommonLayer",
+    "\\CommonLayer\\MSMQ",
+    "\\FundooApp",
+    "\\FundooApp\\Controllers",
+    "\\FundooApp\\Models",
+    "\\FundooApp\\obj",
+    "\\FundooApp\\Properties",
+    "\\RepositoryLayer",
+    "\\RepositoryLayer\\Services"
+  ],
+  "SelectedNode": "\\FundooApp\\Models\\ApplicationUser.cs",
+  "PreviewInSolutionExplorer": false
+}

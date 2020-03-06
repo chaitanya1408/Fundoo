@@ -1,0 +1,58 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29509.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FundooApp", "FundooApp\FundooApp.csproj", "{7F8EC0A1-BDB4-43DB-ACC1-0161866BE81A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2CC950ED-2284-403F-AF41-98E09D77196A} = {2CC950ED-2284-403F-AF41-98E09D77196A}
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessLayer", "BusinessLayer\BusinessLayer.csproj", "{976859E8-13CD-44FB-B10F-99B5D5437D25}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonLayer", "CommonLayer\CommonLayer.csproj", "{72A17F50-9DEE-47BA-8DE7-C0CE4A739330}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RepositoryLayer", "RepositoryLayer\RepositoryLayer.csproj", "{74BE47B7-A0AF-4C05-9E83-1CDEB3A70332}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MSMQReceiver", "MSMQReceiver\MSMQReceiver.csproj", "{2CC950ED-2284-403F-AF41-98E09D77196A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XUnitTestProject1", "XUnitTestProject1\XUnitTestProject1.csproj", "{550D2073-C261-4018-948A-B2363C5E2024}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7F8EC0A1-BDB4-43DB-ACC1-0161866BE81A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F8EC0A1-BDB4-43DB-ACC1-0161866BE81A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F8EC0A1-BDB4-43DB-ACC1-0161866BE81A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F8EC0A1-BDB4-43DB-ACC1-0161866BE81A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{976859E8-13CD-44FB-B10F-99B5D5437D25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{976859E8-13CD-44FB-B10F-99B5D5437D25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{976859E8-13CD-44FB-B10F-99B5D5437D25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{976859E8-13CD-44FB-B10F-99B5D5437D25}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72A17F50-9DEE-47BA-8DE7-C0CE4A739330}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72A17F50-9DEE-47BA-8DE7-C0CE4A739330}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72A17F50-9DEE-47BA-8DE7-C0CE4A739330}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72A17F50-9DEE-47BA-8DE7-C0CE4A739330}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74BE47B7-A0AF-4C05-9E83-1CDEB3A70332}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74BE47B7-A0AF-4C05-9E83-1CDEB3A70332}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74BE47B7-A0AF-4C05-9E83-1CDEB3A70332}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74BE47B7-A0AF-4C05-9E83-1CDEB3A70332}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CC950ED-2284-403F-AF41-98E09D77196A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CC950ED-2284-403F-AF41-98E09D77196A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CC950ED-2284-403F-AF41-98E09D77196A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CC950ED-2284-403F-AF41-98E09D77196A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{550D2073-C261-4018-948A-B2363C5E2024}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{550D2073-C261-4018-948A-B2363C5E2024}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{550D2073-C261-4018-948A-B2363C5E2024}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{550D2073-C261-4018-948A-B2363C5E2024}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {17C8D883-C5C6-4272-8961-90775AAB2BC4}
+	EndGlobalSection
+EndGlobal
