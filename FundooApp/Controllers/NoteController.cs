@@ -35,17 +35,17 @@ namespace FundooApp.Controllers
                 
                 var userId = HttpContext.User.Claims.First(c => c.Type == "UserID").Value;
 
-                var result = await this.noteBL.CreateNote(noteRequest, userId);
+                var data = await this.noteBL.CreateNote(noteRequest, userId);
                 bool success = false;
                 var message = string.Empty;
 
                 // check whether result is true or false
-                if (result)
+                if (data!=null)
                 {
                     // if true then return the result 
                     success = true;
                     message = "Succeffully Created Note";
-                    return this.Ok(new { success, message });
+                    return this.Ok(new { success, message,data });
                 }
                 else
                 {
@@ -133,7 +133,7 @@ namespace FundooApp.Controllers
         {
             try
             {
-                // string userId = "e6ac5ba3-a6d4-400a-bf42-10d7e410ab7a";
+                
                 var userId = HttpContext.User.Claims.First(c => c.Type == "UserID").Value;
 
                 IList<NoteResponse> data = this.noteBL.DisplayNotes(userId);

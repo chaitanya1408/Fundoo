@@ -65,7 +65,6 @@ namespace RepositoryLayer.Services
                         IsPin = requestNote.IsPin,
                         IsTrash = false,
                     };
-
                     
                     var noteInfo = new NoteModel()
                     {
@@ -88,7 +87,7 @@ namespace RepositoryLayer.Services
 
                     // save the changes in database
                     await this.authenticationContext.SaveChangesAsync();
-                    
+
 
                     return true;
                 }
@@ -283,7 +282,7 @@ namespace RepositoryLayer.Services
             try
             {
                 // get all notes of user
-                var data = this.authenticationContext.Note.Where(s => s.UserID == userID && s.NoteID == noteID && s.IsArchive == false && s.IsTrash == false).FirstOrDefault();
+                var data = this.authenticationContext.Note.Where(s => s.UserID == userID && s.NoteID == noteID && s.IsArchive == true && s.IsTrash == true).FirstOrDefault();
 
                 // check whether user have notes or not
                 if (data != null)
@@ -342,7 +341,6 @@ namespace RepositoryLayer.Services
                 IsPin = note.IsPin,
                 IsTrash = note.IsTrash,
                 Reminder = note.Reminder,
-               
                 Labels = labels
             };
 
