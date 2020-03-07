@@ -63,7 +63,7 @@ namespace RepositoryLayer.Services
                         Image = requestNote.Image,
                         IsArchive = requestNote.IsArchive,
                         IsPin = requestNote.IsPin,
-                        IsTrash = false,
+                        IsTrash = requestNote.IsTrash,
                     };
                     
                     var noteInfo = new NoteModel()
@@ -119,7 +119,7 @@ namespace RepositoryLayer.Services
                 var note = this.authenticationContext.Note.Where(s => s.NoteID == noteID && s.UserID == userID).FirstOrDefault();
 
                 // check whether user have required note or not
-                if (note != null && note.IsTrash)
+                if (note != null)
                 {
                     // delete the note from note tabel
                     this.authenticationContext.Note.Remove(note);
@@ -240,7 +240,7 @@ namespace RepositoryLayer.Services
             try
             {
                 // get all notes of user
-                var data = this.authenticationContext.Note.Where(s => s.UserID == userID && s.IsArchive == false && s.IsTrash == false);
+                var data = this.authenticationContext.Note.Where(s => s.UserID == userID) ;
                 var list = new List<NoteResponse>();
 
                 // check whether user have notes or not
@@ -282,7 +282,7 @@ namespace RepositoryLayer.Services
             try
             {
                 // get all notes of user
-                var data = this.authenticationContext.Note.Where(s => s.UserID == userID && s.NoteID == noteID && s.IsArchive == true && s.IsTrash == true).FirstOrDefault();
+                var data = this.authenticationContext.Note.Where(s => s.UserID == userID && s.NoteID == noteID).FirstOrDefault();
 
                 // check whether user have notes or not
                 if (data != null)
@@ -302,18 +302,11 @@ namespace RepositoryLayer.Services
         }
         private NoteResponse GetNoteResponse(string userID, NoteModel note)
         {
-
-            // get the collaborators for each note
-           
-
             // get labels for Note
             var labelList = this.authenticationContext.NoteLabel.Where(s => s.UserID == userID && s.NoteID == note.NoteID);
 
             // creating list for label
             var labels = new List<LabelResponse>();
-
-            
-           
 
             // iteartes the loop for each label for note
             foreach (var data in labelList)
@@ -343,7 +336,6 @@ namespace RepositoryLayer.Services
                 Reminder = note.Reminder,
                 Labels = labels
             };
-
             // return the note info
             return notes;
         }
