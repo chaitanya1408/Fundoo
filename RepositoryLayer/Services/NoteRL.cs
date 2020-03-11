@@ -300,6 +300,316 @@ namespace RepositoryLayer.Services
                 throw new Exception(exception.Message);
             }
         }
+
+        public async Task<bool>IsArchieve(int noteID,string userID)
+        {
+            try
+            {
+                //get all the notes
+                var data = this.authenticationContext.Note.Where(s => s.UserID == userID && s.NoteID == noteID).FirstOrDefault();
+                //check whether the data is null ornot 
+                if (data != null)
+                {
+                    //if the IsArchieve is false then it will change to true
+                    if (data.IsArchive == false)
+                    {
+                        data.IsArchive = true;
+                        data.ModifiedDate = DateTime.Now;
+                        this.authenticationContext.Note.Update(data);
+                        await this.authenticationContext.SaveChangesAsync();
+                        return true;
+                    }
+                    //if the IsArchieve is true then it will change to false
+                    else
+                    {
+                        data.IsArchive = false;
+                        data.ModifiedDate = DateTime.Now;
+                        this.authenticationContext.Note.Update(data);
+                        await this.authenticationContext.SaveChangesAsync();
+                        return true;
+                    }
+                }
+                //data not found
+                else
+                {
+                    throw new Exception("data not found");
+                }
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+        public IList<NoteResponse>GetArchieveNotes(NoteRequest noteRequest,string userID)
+        {
+            try
+            {
+                //get all notes
+                var data = this.authenticationContext.Note.Where(s => s.UserID == userID && s.IsArchive == true);
+                var list = new List<NoteResponse>();
+                //check whether data is null or not
+                if (data != null)
+                {
+                    foreach (var note in data)
+                    {
+                        NoteResponse notes = this.GetNoteResponse(userID, note);
+
+                        list.Add(notes);
+
+                    }
+                    return list;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+        public async Task<bool> IsTrash(int noteID, string userID)
+        {
+            try
+            {
+                //get all notes
+                var data = this.authenticationContext.Note.Where(s => s.UserID == userID && s.NoteID == noteID).FirstOrDefault();
+                //check whether data is null or not
+                if (data != null)
+                {
+                    //checking value of isTrash
+                    if (data.IsTrash == false)
+                    {
+                        data.IsTrash = true;
+                        data.ModifiedDate = DateTime.Now;
+                        this.authenticationContext.Note.Update(data);
+                        await this.authenticationContext.SaveChangesAsync();
+                        return true;
+                    }
+                    else
+                    {
+                        data.IsTrash = false;
+                        data.ModifiedDate = DateTime.Now;
+                        this.authenticationContext.Note.Update(data);
+                        await this.authenticationContext.SaveChangesAsync();
+                        return true;
+                    }
+                }
+                else
+                {
+                    throw new Exception("Data Not found");
+                }
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+        
+        public async Task<bool>RestoreNotes(int noteID,string userID)
+        {
+            try
+            {
+                //get the all the notes
+                var data = this.authenticationContext.Note.Where(s => s.UserID == userID&&s.NoteID==noteID && s.IsTrash == true).FirstOrDefault();
+               //checking data is null or not
+                if (data != null)
+                {
+                    data.IsTrash = false;
+                    data.ModifiedDate = DateTime.Now;
+                    this.authenticationContext.Note.Update(data);
+                    await this.authenticationContext.SaveChangesAsync();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+        public async Task<bool>IsPin(int noteID,string userID)
+        {
+            try
+            {
+                //get all the notes
+                var data = this.authenticationContext.Note.Where(s => s.NoteID == noteID && s.UserID == userID).FirstOrDefault();
+                //checking whether data is null or not
+                if (data != null)
+                {
+                    //checking cvalue od isPIn
+                    if (data.IsPin == false)
+                    {
+                        data.IsPin = true;
+                        data.ModifiedDate = DateTime.Now;
+                        this.authenticationContext.Note.Update(data);
+                        await this.authenticationContext.SaveChangesAsync();
+                        return true;
+                    }
+                    else
+                    {
+                        data.IsPin = false;
+                        data.ModifiedDate = DateTime.Now;
+                        this.authenticationContext.Note.Update(data);
+                        await this.authenticationContext.SaveChangesAsync();
+                        return true;
+                    }
+                }
+                else
+                {
+                    throw new Exception("Matching Data Not found");
+                }
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+        public IList<NoteResponse> GetPinNotes(string userID)
+        {
+            try
+            {
+                //get all notes
+                var data = this.authenticationContext.Note.Where(s => s.UserID == userID && s.IsPin == true);
+                //initialize list
+                var list = new List<NoteResponse>();
+                //checking whether data is null or not     
+                if (data != null)
+                {
+                    foreach (var note in data)
+                    {
+                        NoteResponse notes = this.GetNoteResponse(userID, note);
+
+                        list.Add(notes);
+
+                    }
+                    return list;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+        public async Task<NoteModel>ChangeColor(NoteRequest noteRequest, int noteID,string userID)
+        {
+            try
+            {
+                //geting note
+                var note = this.authenticationContext.Note.Where(s => s.UserID == userID && s.NoteID == noteID).FirstOrDefault();
+                //checking whether note is null or not
+                if (note != null)
+                {
+                    //color is null or not
+                    if(noteRequest.Color!=null&& noteRequest.Color != string.Empty)
+                    {
+                        note.Color = noteRequest.Color;
+                        note.ModifiedDate = DateTime.Now;
+                        this.authenticationContext.Note.Update(note);
+                        await this.authenticationContext.SaveChangesAsync();
+                        return note;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+                else
+                {
+                    throw new Exception("Note is not Found");
+                }
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+        public IList<NoteResponse>GetAllPinNotes(string userID)
+        {
+            try
+            {
+                //get all the notes
+                var data = this.authenticationContext.Note.Where(s => s.UserID == userID && s.IsPin == true);
+                //initialise list
+                var list = new List<NoteResponse>();
+                //checking whether data is null or not
+                if (data != null)
+                {
+                    foreach (var note in data)
+                    {
+                        NoteResponse notes = this.GetNoteResponse(userID, note);
+
+                        list.Add(notes);
+
+                    }
+                    return list;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+        public async Task<NoteModel> SetReminder(int noteID, string userID)
+        {
+            try
+            {
+                var note = this.authenticationContext.Note.Where(s => s.UserID == userID && s.NoteID == noteID).FirstOrDefault();
+                if (note != null)
+                {
+                    note.Reminder = note.Reminder;
+                    note.ModifiedDate = DateTime.Now;
+                    this.authenticationContext.Note.Update(note);
+                    await this.authenticationContext.SaveChangesAsync();
+                    return note;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+        public async Task<NoteModel>RemoveReminder(int noteID,string userID)
+        {
+            try
+            {
+                var note = this.authenticationContext.Note.Where(s => s.UserID == userID && s.NoteID == noteID).FirstOrDefault();
+                if (note != null)
+                {
+                    note.Reminder = DateTime.Now;
+                    note.ModifiedDate = DateTime.Now;
+                    this.authenticationContext.Note.Update(note);
+                    await this.authenticationContext.SaveChangesAsync();
+                    return note;
+                }
+                else 
+                { 
+                    return null;
+                }
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+       
+            
         private NoteResponse GetNoteResponse(string userID, NoteModel note)
         {
             // get labels for Note

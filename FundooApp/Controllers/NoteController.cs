@@ -28,6 +28,7 @@ namespace FundooApp.Controllers
 
       
         [HttpPost]
+        [Route("CreateNote")]
         public async Task<IActionResult> CreateNote(NoteRequest noteRequest)
         {
             try
@@ -62,7 +63,7 @@ namespace FundooApp.Controllers
 
        
         [HttpDelete]
-        [Route("{noteID}")]
+        [Route("DeleteNote")]
         ////Post: /api/Note/DeleteNote
         public async Task<IActionResult> DeleteNote(int noteID)
         {
@@ -96,7 +97,7 @@ namespace FundooApp.Controllers
 
        
         [HttpPut]
-        [Route("{noteID}")]
+        [Route("UpdateNote")]
         ////Put: /api/Note/UpdateNote
         public async Task<IActionResult> UpdateNote(NoteRequest noteRequest, int noteID)
         {
@@ -129,6 +130,7 @@ namespace FundooApp.Controllers
 
        
         [HttpGet]
+        [Route("DisplayNote")]
         public async Task<IActionResult> DisplayNotes()
         {
             try
@@ -165,7 +167,7 @@ namespace FundooApp.Controllers
         /// <param name="noteID">The note identifier.</param>
         /// <returns> returns the info of specific note</returns>
         [HttpGet]
-        [Route("{noteID}")]
+        [Route("GetNote")]
         ////Post: /api/Note/DisplayNotes
         public async Task<IActionResult> GetNote(int noteID)
         {
@@ -194,6 +196,258 @@ namespace FundooApp.Controllers
                 return this.BadRequest(new { exception.Message });
             }
         }
+        [HttpPut]
+        [Route("IsArchieve")]
+        public async Task<IActionResult>IsArchieve(int noteID)
+        {
+            try
+            {
+                var userID = HttpContext.User.Claims.First(c => c.Type == "UserID").Value;
+                var result = await this.noteBL.IsArchieve(noteID, userID);
+                bool success = false;
+                var message = string.Empty;
 
+                if (result)
+                {
+                    success = true;
+                    message = "Note is updated";
+                    return this.Ok(new { success, message });
+                }
+                else
+                {
+                    success = false;
+                    message = "Note is not updated";
+                    return this.BadRequest(new { success, message });
+                }
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+        [HttpGet]
+        [Route("GetArchieveNotes")]
+        public async Task<IActionResult>GetArchieveNotes(NoteRequest noteRequest)
+        {
+            try
+            {
+                var userID = HttpContext.User.Claims.First(c => c.Type == "UserID").Value;
+                IList<NoteResponse> data = this.noteBL.GetArchieveNotes(noteRequest,userID);
+
+                bool success = false;
+                var message = string.Empty;
+                if (data.Count != 0)
+                {
+                    success = true;
+                    return this.Ok(new { success, message });
+                }
+                else
+                {
+                    success = false;
+                    message = "Note is not found";
+                    return this.BadRequest(new { success, message });
+                }
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+        [HttpPut]
+        [Route("IsTrash")]
+        public async Task<IActionResult>IsTrash(int noteID)
+        {
+            try
+            {
+                var userID = HttpContext.User.Claims.First(c => c.Type == "UserID").Value;
+                var result = await this.noteBL.IsTrash(noteID, userID);
+                bool success = false;
+                var message = string.Empty;
+                if (result)
+                {
+                    success = true;
+                    message = "Note is Updated";
+                    return this.Ok(new { success, message });
+                }
+                else
+                {
+                    success = false;
+                    message = "Note is not updated";
+                    return this.BadRequest(new { success, message });
+                }
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+        [HttpPut]
+        [Route("RestoringNotes")]
+        public async Task<IActionResult>RestoreNotes(int noteID)
+        {
+            try
+            {
+                var userID = HttpContext.User.Claims.First(c => c.Type == "UserID").Value;
+                var result = await this.noteBL.RestoreNotes(noteID, userID);
+                bool success = false;
+                var message = string.Empty;
+                if (result)
+                {
+                    success = true;
+                    message = "Notes Are restored";
+                    return this.Ok(new { success, message });
+                }
+                else
+                {
+                    success = false;
+                    message = "Note Restoration Failed";
+                    return this.BadRequest(new { success, message });
+                }
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+        [HttpPut]
+        [Route("IsPin")]
+        public async Task<IActionResult>IsPin(int noteID)
+        {
+            try
+            {
+                var userID = HttpContext.User.Claims.First(c => c.Type == "UserID").Value;
+                var result = await this.noteBL.IsPin(noteID, userID);
+                bool success = false;
+                var message = string.Empty;
+                if (result)
+                {
+                    success = true;
+                    message = "note is Updated";
+                    return this.Ok(new { success, message });
+                }
+                else
+                {
+                    success = false;
+                    message = "Note is not updated";
+                    return this.BadRequest(new { success, message });
+                }
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+        [HttpPut]
+        [Route("AllPinnedNotes")]
+        public async Task<IActionResult> GetPinNotes()
+        {
+            try
+            {
+                var userID = HttpContext.User.Claims.First(c => c.Type == "UserID").Value;
+               IList<NoteResponse> data = this.noteBL.GetPinNotes(userID);
+                var succees = false;
+                var message = string.Empty;
+                if (data.Count!=0)
+                {
+                    succees = true;
+                    message="PinnedNOtes";
+                    return this.Ok(new { succees, message, data });
+                }
+                else
+                {
+                    throw new Exception("Data Not Found");
+                }
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+        
+
+        [HttpPut]
+        [Route("ChangeColour")]
+        public async Task<IActionResult>ChangeColor(NoteRequest noteRequest, int noteID)
+        {
+            try
+            {
+                var userID = HttpContext.User.Claims.First(c => c.Type == "UserID").Value;
+                var data = await this.noteBL.ChangeColor(noteRequest, noteID, userID);
+                bool success = false;
+                var message = string.Empty;
+                if (data != null)
+                {
+                    success = true;
+                    message = "Colour is changed";
+                    return this.Ok(new { success, message, data });
+                }
+                else
+                {
+                    success = false;
+                    message = "Note is not Updated";
+                    return this.BadRequest(new { success, message });
+                }
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+        [HttpPut]
+        [Route("SetReminder")]
+        public async Task<IActionResult>SetReminder(int noteID)
+        {
+            try
+            {
+                var userID = HttpContext.User.Claims.First(c => c.Type == "UserID").Value;
+                var data = await this.noteBL.SetReminder(noteID, userID);
+                bool success = false;
+                var message = string.Empty;
+                if (data != null)
+                {
+                    success = true;
+                    message = "Reminder Set";
+                    return this.Ok(new { success, message, data });
+                }
+                else
+                {
+                    success = false;
+                    message = "Reminder is not set";
+                    return this.BadRequest(new { success, message });
+                }
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+        [HttpPut]
+        [Route("RemoveReminder")]
+        public async Task<IActionResult>RemoveReminder(int noteID)
+        {
+            try
+            {
+                var userID = HttpContext.User.Claims.First(c => c.Type == "UserID").Value;
+                var data = await this.noteBL.RemoveReminder(noteID, userID);
+                bool success = false;
+                var message = string.Empty;
+                if (data != null)
+                {
+                    success = true;
+                    message = "Reminder Removed";
+                    return this.Ok(new { success, message });
+                }
+                else
+                {
+                    success = false;
+                    message = "Reminder is Not Removied";
+                    return this.BadRequest(new { success, message });
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
     }
 }

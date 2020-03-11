@@ -180,6 +180,10 @@
       "frameworks": {
         "netcoreapp2.1": {
           "dependencies": {
+            "CloudinaryDotNet": {
+              "target": "Package",
+              "version": "[1.10.0, )"
+            },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
               "version": "[2.1.1, )"

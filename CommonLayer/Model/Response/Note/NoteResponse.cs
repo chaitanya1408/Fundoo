@@ -75,12 +75,7 @@ namespace CommonLayer.Model.Response.Note
         /// </value>
         public string Image { get; set; }
 
-        /// <summary>
-        /// Gets or sets the collaborators.
-        /// </summary>
-        /// <value>
-        /// The collaborators.
-        /// </value>
+        
       
 
         /// <summary>

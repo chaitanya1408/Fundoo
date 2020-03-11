@@ -40,7 +40,6 @@ namespace RepositoryLayer.Services
                         ModifiedDate = DateTime.Now
                     };
 
-                   
                     this.authenticationContext.Label.Add(data);
 
                     
