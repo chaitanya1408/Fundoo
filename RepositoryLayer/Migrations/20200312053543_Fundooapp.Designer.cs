@@ -10,8 +10,8 @@ using RepositoryLayer.Context;
 namespace RepositoryLayer.Migrations
 {
     [DbContext(typeof(AuthenticationContext))]
-    [Migration("20200306035811_Note and Label")]
-    partial class NoteandLabel
+    [Migration("20200312053543_Fundooapp")]
+    partial class Fundooapp
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

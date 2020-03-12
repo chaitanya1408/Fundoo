@@ -198,20 +198,20 @@ namespace FundooApp.Controllers
         }
         [HttpPut]
         [Route("IsArchieve")]
-        public async Task<IActionResult>IsArchieve(int noteID)
+        public async Task<IActionResult>IsArchieve(bool IsArchieve,int noteID)
         {
             try
             {
                 var userID = HttpContext.User.Claims.First(c => c.Type == "UserID").Value;
-                var result = await this.noteBL.IsArchieve(noteID, userID);
+                var data = await this.noteBL.IsArchieve(IsArchieve,noteID, userID);
                 bool success = false;
                 var message = string.Empty;
 
-                if (result)
+                if (data!=null)
                 {
                     success = true;
                     message = "Note is updated";
-                    return this.Ok(new { success, message });
+                    return this.Ok(new { success, message,data });
                 }
                 else
                 {
@@ -227,19 +227,20 @@ namespace FundooApp.Controllers
         }
         [HttpGet]
         [Route("GetArchieveNotes")]
-        public async Task<IActionResult>GetArchieveNotes(NoteRequest noteRequest)
+        public async Task<IActionResult>GetArchieveNotes()
         {
             try
             {
                 var userID = HttpContext.User.Claims.First(c => c.Type == "UserID").Value;
-                IList<NoteResponse> data = this.noteBL.GetArchieveNotes(noteRequest,userID);
+                IList<NoteResponse> data = this.noteBL.GetArchieveNotes(userID);
 
                 bool success = false;
                 var message = string.Empty;
                 if (data.Count != 0)
                 {
                     success = true;
-                    return this.Ok(new { success, message });
+                    message = "All Archievenotes Are displayed";
+                    return this.Ok(new {data, success, message });
                 }
                 else
                 {
@@ -255,19 +256,19 @@ namespace FundooApp.Controllers
         }
         [HttpPut]
         [Route("IsTrash")]
-        public async Task<IActionResult>IsTrash(int noteID)
+        public async Task<IActionResult>IsTrash(bool IsTrash,int noteID)
         {
             try
             {
                 var userID = HttpContext.User.Claims.First(c => c.Type == "UserID").Value;
-                var result = await this.noteBL.IsTrash(noteID, userID);
+                var data = await this.noteBL.IsTrash(IsTrash,noteID, userID);
                 bool success = false;
                 var message = string.Empty;
-                if (result)
+                if (data!=null)
                 {
                     success = true;
                     message = "Note is Updated";
-                    return this.Ok(new { success, message });
+                    return this.Ok(new { success, message, data });
                 }
                 else
                 {
@@ -288,14 +289,14 @@ namespace FundooApp.Controllers
             try
             {
                 var userID = HttpContext.User.Claims.First(c => c.Type == "UserID").Value;
-                var result = await this.noteBL.RestoreNotes(noteID, userID);
+                var data = await this.noteBL.RestoreNotes(noteID, userID);
                 bool success = false;
                 var message = string.Empty;
-                if (result)
+                if (data!=null)
                 {
                     success = true;
                     message = "Notes Are restored";
-                    return this.Ok(new { success, message });
+                    return this.Ok(new { success, message ,data});
                 }
                 else
                 {
@@ -310,16 +311,44 @@ namespace FundooApp.Controllers
             }
         }
         [HttpPut]
+        [Route("BulkRestore")]
+        public async Task<IActionResult> BulkRestore()
+        {
+            try
+            {
+                var userID = HttpContext.User.Claims.First(c => c.Type == "UserID").Value;
+                var data = await this.noteBL.BulkRestore(userID);
+                bool success = false;
+                var message = string.Empty;
+                if (data != null)
+                {
+                    success = true;
+                    message = "Restored all Notes";
+                    return this.Ok(new { success, message, data });
+                }
+                else
+                {
+                    success = false;
+                    message = "not restored notes";
+                    return this.BadRequest(new { success, message, data });
+                }
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+        [HttpPut]
         [Route("IsPin")]
         public async Task<IActionResult>IsPin(int noteID)
         {
             try
             {
                 var userID = HttpContext.User.Claims.First(c => c.Type == "UserID").Value;
-                var result = await this.noteBL.IsPin(noteID, userID);
+                var data = await this.noteBL.IsPin(noteID, userID);
                 bool success = false;
                 var message = string.Empty;
-                if (result)
+                if (data!=null)
                 {
                     success = true;
                     message = "note is Updated";
@@ -337,7 +366,7 @@ namespace FundooApp.Controllers
                 throw new Exception(e.Message);
             }
         }
-        [HttpPut]
+        [HttpGet]
         [Route("AllPinnedNotes")]
         public async Task<IActionResult> GetPinNotes()
         {
@@ -355,7 +384,9 @@ namespace FundooApp.Controllers
                 }
                 else
                 {
-                    throw new Exception("Data Not Found");
+                    succees = false;
+                    message = "Note is not updated";
+                    return this.BadRequest(new { succees, message });
                 }
             }
             catch(Exception e)
@@ -367,12 +398,12 @@ namespace FundooApp.Controllers
 
         [HttpPut]
         [Route("ChangeColour")]
-        public async Task<IActionResult>ChangeColor(NoteRequest noteRequest, int noteID)
+        public async Task<IActionResult>ChangeColor(string color, int noteID)
         {
             try
             {
                 var userID = HttpContext.User.Claims.First(c => c.Type == "UserID").Value;
-                var data = await this.noteBL.ChangeColor(noteRequest, noteID, userID);
+                var data = await this.noteBL.ChangeColor(color, noteID, userID);
                 bool success = false;
                 var message = string.Empty;
                 if (data != null)
@@ -395,12 +426,12 @@ namespace FundooApp.Controllers
         }
         [HttpPut]
         [Route("SetReminder")]
-        public async Task<IActionResult>SetReminder(int noteID)
+        public async Task<IActionResult>SetReminder(DateTime reminder,int noteID)
         {
             try
             {
                 var userID = HttpContext.User.Claims.First(c => c.Type == "UserID").Value;
-                var data = await this.noteBL.SetReminder(noteID, userID);
+                var data = await this.noteBL.SetReminder(reminder,noteID, userID);
                 bool success = false;
                 var message = string.Empty;
                 if (data != null)

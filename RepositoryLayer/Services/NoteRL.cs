@@ -45,7 +45,7 @@ namespace RepositoryLayer.Services
         /// <param name="userID">The user identifier.</param>
         /// <returns> returns true or false indicating operation is successful or not</returns>
         /// <exception cref="Exception"> exception message</exception>
-        public async Task<bool> CreateNote(NoteRequest requestNote, string userID)
+        public async Task<NoteResponse> CreateNote(NoteRequest requestNote,string userID)
         {
             try
             {
@@ -89,11 +89,12 @@ namespace RepositoryLayer.Services
                     await this.authenticationContext.SaveChangesAsync();
 
 
-                    return true;
+                    NoteResponse nr = this.GetNoteResponse(userID, noteInfo);
+                    return nr;
                 }
                 else
                 {
-                    return false;
+                    throw new Exception("Note is not created");
                 }
             }
             catch (Exception exception)
@@ -301,33 +302,21 @@ namespace RepositoryLayer.Services
             }
         }
 
-        public async Task<bool>IsArchieve(int noteID,string userID)
+        public async Task<NoteResponse>IsArchieve(bool IsArchieve,int noteID,string userID)
         {
             try
             {
                 //get all the notes
-                var data = this.authenticationContext.Note.Where(s => s.UserID == userID && s.NoteID == noteID).FirstOrDefault();
+                var note = this.authenticationContext.Note.Where(s => s.UserID == userID && s.NoteID == noteID).FirstOrDefault();
                 //check whether the data is null ornot 
-                if (data != null)
+                if (note != null)
                 {
-                    //if the IsArchieve is false then it will change to true
-                    if (data.IsArchive == false)
-                    {
-                        data.IsArchive = true;
-                        data.ModifiedDate = DateTime.Now;
-                        this.authenticationContext.Note.Update(data);
-                        await this.authenticationContext.SaveChangesAsync();
-                        return true;
-                    }
-                    //if the IsArchieve is true then it will change to false
-                    else
-                    {
-                        data.IsArchive = false;
-                        data.ModifiedDate = DateTime.Now;
-                        this.authenticationContext.Note.Update(data);
-                        await this.authenticationContext.SaveChangesAsync();
-                        return true;
-                    }
+                    note.IsArchive = IsArchieve;
+                    note.ModifiedDate = DateTime.Now;
+                    this.authenticationContext.Note.Update(note);
+                    await this.authenticationContext.SaveChangesAsync();
+                    NoteResponse data = this.GetNoteResponse(userID, note);
+                    return data;
                 }
                 //data not found
                 else
@@ -340,7 +329,7 @@ namespace RepositoryLayer.Services
                 throw new Exception(e.Message);
             }
         }
-        public IList<NoteResponse>GetArchieveNotes(NoteRequest noteRequest,string userID)
+        public IList<NoteResponse>GetArchieveNotes(string userID)
         {
             try
             {
@@ -369,32 +358,21 @@ namespace RepositoryLayer.Services
                 throw new Exception(e.Message);
             }
         }
-        public async Task<bool> IsTrash(int noteID, string userID)
+        public async Task<NoteResponse> IsTrash(bool IsTrash,int noteID, string userID)
         {
             try
             {
                 //get all notes
-                var data = this.authenticationContext.Note.Where(s => s.UserID == userID && s.NoteID == noteID).FirstOrDefault();
+                var note = this.authenticationContext.Note.Where(s => s.UserID == userID && s.NoteID == noteID).FirstOrDefault();
                 //check whether data is null or not
-                if (data != null)
+                if (note != null)
                 {
-                    //checking value of isTrash
-                    if (data.IsTrash == false)
-                    {
-                        data.IsTrash = true;
-                        data.ModifiedDate = DateTime.Now;
-                        this.authenticationContext.Note.Update(data);
-                        await this.authenticationContext.SaveChangesAsync();
-                        return true;
-                    }
-                    else
-                    {
-                        data.IsTrash = false;
-                        data.ModifiedDate = DateTime.Now;
-                        this.authenticationContext.Note.Update(data);
-                        await this.authenticationContext.SaveChangesAsync();
-                        return true;
-                    }
+                    note.IsTrash = IsTrash;
+                    note.ModifiedDate = DateTime.Now;
+                    this.authenticationContext.Note.Update(note);
+                    await this.authenticationContext.SaveChangesAsync();
+                    NoteResponse data = this.GetNoteResponse(userID, note);
+                    return data;
                 }
                 else
                 {
@@ -407,24 +385,24 @@ namespace RepositoryLayer.Services
             }
         }
         
-        public async Task<bool>RestoreNotes(int noteID,string userID)
+        public async Task<NoteResponse>RestoreNotes(int noteID,string userID)
         {
             try
             {
                 //get the all the notes
-                var data = this.authenticationContext.Note.Where(s => s.UserID == userID&&s.NoteID==noteID && s.IsTrash == true).FirstOrDefault();
+                var note = this.authenticationContext.Note.Where(s => s.UserID == userID&&s.NoteID==noteID && s.IsTrash == true).FirstOrDefault();
                //checking data is null or not
-                if (data != null)
+                if (note != null)
                 {
-                    data.IsTrash = false;
-                    data.ModifiedDate = DateTime.Now;
-                    this.authenticationContext.Note.Update(data);
-                    await this.authenticationContext.SaveChangesAsync();
-                    return true;
+                    note.IsTrash = false;
+                    note.ModifiedDate = DateTime.Now;
+                    this.authenticationContext.Note.Update(note);
+                    NoteResponse data = this.GetNoteResponse(userID, note);
+                    return data;
                 }
                 else
                 {
-                    return false;
+                    return null;
                 }
             }
             catch(Exception e)
@@ -432,31 +410,55 @@ namespace RepositoryLayer.Services
                 throw new Exception(e.Message);
             }
         }
-        public async Task<bool>IsPin(int noteID,string userID)
+        public async Task<NoteResponse>BulkRestore(string userID)
+        {
+            try
+            {
+                var note = this.authenticationContext.Note.Where(s => s.UserID == s.UserID && s.IsTrash == s.IsTrash).FirstOrDefault();
+                if (note != null)
+                {
+                    note.IsTrash = false;
+                    note.ModifiedDate = DateTime.Now;
+                    this.authenticationContext.Note.Update(note);
+                    NoteResponse data = this.GetNoteResponse(userID, note);
+                    return data;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+        public async Task<NoteResponse>IsPin(int noteID,string userID)
         {
             try
             {
                 //get all the notes
-                var data = this.authenticationContext.Note.Where(s => s.NoteID == noteID && s.UserID == userID).FirstOrDefault();
+                var note = this.authenticationContext.Note.Where(s => s.NoteID == noteID && s.UserID == userID).FirstOrDefault();
                 //checking whether data is null or not
-                if (data != null)
+                if (note != null)
                 {
                     //checking cvalue od isPIn
-                    if (data.IsPin == false)
+                    if (note.IsPin == false)
                     {
-                        data.IsPin = true;
-                        data.ModifiedDate = DateTime.Now;
-                        this.authenticationContext.Note.Update(data);
-                        await this.authenticationContext.SaveChangesAsync();
-                        return true;
+                        note.IsPin = true;
+                        note.ModifiedDate = DateTime.Now;
+                        this.authenticationContext.Note.Update(note);
+                        NoteResponse data = this.GetNoteResponse(userID, note);
+                        return data;
                     }
                     else
                     {
-                        data.IsPin = false;
-                        data.ModifiedDate = DateTime.Now;
-                        this.authenticationContext.Note.Update(data);
+                        note.IsPin = false;
+                        note.ModifiedDate = DateTime.Now;
+                        this.authenticationContext.Note.Update(note);
                         await this.authenticationContext.SaveChangesAsync();
-                        return true;
+                        NoteResponse data = this.GetNoteResponse(userID, note);
+                        return data;
                     }
                 }
                 else
@@ -499,7 +501,7 @@ namespace RepositoryLayer.Services
                 throw new Exception(e.Message);
             }
         }
-        public async Task<NoteModel>ChangeColor(NoteRequest noteRequest, int noteID,string userID)
+        public async Task<NoteResponse>ChangeColor(string color, int noteID,string userID)
         {
             try
             {
@@ -509,18 +511,12 @@ namespace RepositoryLayer.Services
                 if (note != null)
                 {
                     //color is null or not
-                    if(noteRequest.Color!=null&& noteRequest.Color != string.Empty)
-                    {
-                        note.Color = noteRequest.Color;
-                        note.ModifiedDate = DateTime.Now;
-                        this.authenticationContext.Note.Update(note);
-                        await this.authenticationContext.SaveChangesAsync();
-                        return note;
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    note.Color = color;
+                    note.ModifiedDate = DateTime.Now;
+                    this.authenticationContext.Note.Update(note);
+                    await this.authenticationContext.SaveChangesAsync();
+                    NoteResponse data = this.GetNoteResponse(userID, note);
+                    return data;
                 }
                 else
                 {
@@ -532,48 +528,20 @@ namespace RepositoryLayer.Services
                 throw new Exception(e.Message);
             }
         }
-        public IList<NoteResponse>GetAllPinNotes(string userID)
-        {
-            try
-            {
-                //get all the notes
-                var data = this.authenticationContext.Note.Where(s => s.UserID == userID && s.IsPin == true);
-                //initialise list
-                var list = new List<NoteResponse>();
-                //checking whether data is null or not
-                if (data != null)
-                {
-                    foreach (var note in data)
-                    {
-                        NoteResponse notes = this.GetNoteResponse(userID, note);
-
-                        list.Add(notes);
-
-                    }
-                    return list;
-                }
-                else
-                {
-                    return null;
-                }
-            }
-            catch(Exception e)
-            {
-                throw new Exception(e.Message);
-            }
-        }
-        public async Task<NoteModel> SetReminder(int noteID, string userID)
+        
+        public async Task<NoteResponse> SetReminder(DateTime reminder,int noteID, string userID)
         {
             try
             {
                 var note = this.authenticationContext.Note.Where(s => s.UserID == userID && s.NoteID == noteID).FirstOrDefault();
                 if (note != null)
                 {
-                    note.Reminder = note.Reminder;
+                    note.Reminder = reminder;
                     note.ModifiedDate = DateTime.Now;
                     this.authenticationContext.Note.Update(note);
                     await this.authenticationContext.SaveChangesAsync();
-                    return note;
+                    NoteResponse data = this.GetNoteResponse(userID, note);
+                    return data;
                 }
                 else
                 {
@@ -585,18 +553,19 @@ namespace RepositoryLayer.Services
                 throw new Exception(e.Message);
             }
         }
-        public async Task<NoteModel>RemoveReminder(int noteID,string userID)
+        public async Task<NoteResponse>RemoveReminder(int noteID,string userID)
         {
             try
             {
                 var note = this.authenticationContext.Note.Where(s => s.UserID == userID && s.NoteID == noteID).FirstOrDefault();
                 if (note != null)
                 {
-                    note.Reminder = DateTime.Now;
+                    note.Reminder =null ;
                     note.ModifiedDate = DateTime.Now;
                     this.authenticationContext.Note.Update(note);
                     await this.authenticationContext.SaveChangesAsync();
-                    return note;
+                    NoteResponse data = this.GetNoteResponse(userID, note);
+                    return data;
                 }
                 else 
                 { 
@@ -607,6 +576,7 @@ namespace RepositoryLayer.Services
             {
                 throw new Exception(e.Message);
             }
+
         }
        
             

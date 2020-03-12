@@ -11,7 +11,7 @@ namespace RepositoryLayer.Interface
 {
     public interface INoteRL
     {
-        Task<bool> CreateNote(NoteRequest noteRequest, string userID);
+        Task<NoteResponse> CreateNote(NoteRequest noteRequest, string userID);
 
         /// <summary>
         /// Deletes the note.
@@ -50,35 +50,41 @@ namespace RepositoryLayer.Interface
         /// <param name="noteID">The note identifier.</param>
         /// <param name="userID">The user identifier.</param>
         /// <returns></returns>
-        Task<bool> IsArchieve(int noteID, string userID);
+        Task<NoteResponse> IsArchieve(bool IsArchieve,int noteID, string userID);
         /// <summary>
         /// Gets the archieve notes.
         /// </summary>
         /// <param name="noteRequest">The note request.</param>
         /// <param name="userID">The user identifier.</param>
         /// <returns></returns>
-        IList<NoteResponse> GetArchieveNotes(NoteRequest noteRequest, string userID);
+        IList<NoteResponse> GetArchieveNotes(string userID);
         /// <summary>
         /// Determines whether the specified note identifier is trash.
         /// </summary>
         /// <param name="noteID">The note identifier.</param>
         /// <param name="userID">The user identifier.</param>
         /// <returns></returns>
-        Task<bool> IsTrash(int noteID, string userID);
+        Task<NoteResponse> IsTrash(bool IsTrash,int noteID, string userID);
         /// <summary>
         /// Restores the notes.
         /// </summary>
         /// <param name="noteRequest">The note request.</param>
         /// <param name="userID">The user identifier.</param>
         /// <returns></returns>
-        Task<bool> RestoreNotes(int noteID,string userID);
+        Task<NoteResponse> RestoreNotes(int noteID,string userID);
+        /// <summary>
+        /// Bulks the restore.
+        /// </summary>
+        /// <param name="userID">The user identifier.</param>
+        /// <returns></returns>
+        Task<NoteResponse> BulkRestore(string userID);
         /// <summary>
         /// Determines whether the specified note identifier is pin.
         /// </summary>
         /// <param name="noteID">The note identifier.</param>
         /// <param name="userID">The user identifier.</param>
         /// <returns></returns>
-        Task<bool> IsPin(int noteID, string userID);
+        Task<NoteResponse> IsPin(int noteID, string userID);
         /// <summary>
         /// Gets the pin notes.
         /// </summary>
@@ -93,7 +99,7 @@ namespace RepositoryLayer.Interface
         /// <param name="noteID">The note identifier.</param>
         /// <param name="userID">The user identifier.</param>
         /// <returns></returns>
-        Task<NoteModel> ChangeColor(NoteRequest noteRequest, int noteID, string userID);
+        Task<NoteResponse> ChangeColor(string color, int noteID, string userID);
         /// <summary>
         /// Sets the reminder.
         /// </summary>
@@ -101,14 +107,14 @@ namespace RepositoryLayer.Interface
         /// <param name="noteID">The note identifier.</param>
         /// <param name="userID">The user identifier.</param>
         /// <returns></returns>
-        Task<NoteModel> SetReminder( int noteID, string userID);
+        Task<NoteResponse> SetReminder(DateTime reminder, int noteID, string userID);
         /// <summary>
         /// Removes the reminder.
         /// </summary>
         /// <param name="noteID">The note identifier.</param>
         /// <param name="userID">The user identifier.</param>
         /// <returns></returns>
-        Task<NoteModel> RemoveReminder(int noteID, string userID);
+        Task<NoteResponse> RemoveReminder(int noteID, string userID);
         
     }
 }

@@ -23,7 +23,7 @@ namespace BusinessLayer.Services
         }
 
        
-        public async Task<bool> CreateNote(NoteRequest noteRequest, string userID)
+        public async Task<NoteResponse> CreateNote(NoteRequest noteRequest, string userID)
         {
             try
             {
@@ -148,7 +148,7 @@ namespace BusinessLayer.Services
                 throw new Exception(exception.Message);
             }
         }
-        public async Task<bool>IsArchieve(int noteID,string userID)
+        public async Task<NoteResponse>IsArchieve(bool IsArchieve,int noteID,string userID)
         {
             try
             {
@@ -156,7 +156,7 @@ namespace BusinessLayer.Services
                 if (userID != null)
                 {
                     //if usrerid is not null then pass that id to Respository layer method to display notes of that user
-                    return await this.noteRL.IsArchieve(noteID, userID);
+                    return await this.noteRL.IsArchieve(IsArchieve,noteID, userID);
                 }
                 else
                 {
@@ -169,14 +169,14 @@ namespace BusinessLayer.Services
                 throw new Exception(e.Message);
             }
         }
-        public IList<NoteResponse>GetArchieveNotes(NoteRequest noteRequest, string userID)
+        public IList<NoteResponse>GetArchieveNotes(string userID)
         {
             try
             {
 
                 if (userID != null)
                 {
-                    return this.noteRL.GetArchieveNotes(noteRequest, userID);
+                    return this.noteRL.GetArchieveNotes(userID);
                 }
                 else
                 {
@@ -188,13 +188,13 @@ namespace BusinessLayer.Services
                 throw new Exception(e.Message);
             }
         }
-        public async Task<bool> IsTrash(int noteID, string userID)
+        public async Task<NoteResponse> IsTrash(bool IsTrash,int noteID, string userID)
         {
             try
             {
                 if (userID != null)
                 {
-                    return await this.noteRL.IsTrash(noteID, userID);
+                    return await this.noteRL.IsTrash(IsTrash,noteID, userID);
                 }
                 else
                 {
@@ -206,7 +206,7 @@ namespace BusinessLayer.Services
                 throw new Exception(e.Message);
             }
         }
-        public async Task<bool>RestoreNotes(int noteID,string userID)
+        public async Task<NoteResponse>RestoreNotes(int noteID,string userID)
         {
             try
             {
@@ -224,7 +224,25 @@ namespace BusinessLayer.Services
                 throw new Exception(e.Message);
             }
         }
-        public async Task<bool>IsPin(int noteID,string userID)
+        public async Task<NoteResponse>BulkRestore(string userID)
+        {
+            try
+            {
+                if (userID != null)
+                {
+                    return await this.noteRL.BulkRestore(userID);
+                }
+                else
+                {
+                    throw new Exception("User not Found");
+                }
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+        public async Task<NoteResponse>IsPin(int noteID,string userID)
         {
             try
             {
@@ -260,13 +278,13 @@ namespace BusinessLayer.Services
                 throw new Exception(e.Message);
             }
         }
-        public async Task<NoteModel>ChangeColor(NoteRequest noteRequest,int noteID,String userID)
+        public async Task<NoteResponse>ChangeColor(string color,int noteID,String userID)
         {
             try
             {
                 if (userID != null)
                 {
-                    return await this.noteRL.ChangeColor(noteRequest,noteID, userID);
+                    return await this.noteRL.ChangeColor(color,noteID, userID);
                 }
                 else
                 {
@@ -278,13 +296,13 @@ namespace BusinessLayer.Services
                 throw new Exception(e.Message);
             }
         }
-        public async Task<NoteModel>SetReminder(int noteID,string userID)
+        public async Task<NoteResponse>SetReminder(DateTime reminder,int noteID,string userID)
         {
             try
             {
                 if (userID != null)
                 {
-                    return await this.noteRL.SetReminder( noteID, userID);
+                    return await this.noteRL.SetReminder( reminder,noteID, userID);
                 }
                 else
                 {
@@ -296,7 +314,7 @@ namespace BusinessLayer.Services
                 throw new Exception(e.Message);
             }
         }
-        public async Task<NoteModel>RemoveReminder(int noteID,string userID)
+        public async Task<NoteResponse>RemoveReminder(int noteID,string userID)
         {
             try
             {

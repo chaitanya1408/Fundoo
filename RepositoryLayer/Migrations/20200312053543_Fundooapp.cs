@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace RepositoryLayer.Migrations
 {
-    public partial class NoteandLabel : Migration
+    public partial class Fundooapp : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
