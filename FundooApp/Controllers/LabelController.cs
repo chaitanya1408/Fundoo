@@ -71,6 +71,7 @@ namespace FundooApp.Controllers
         /// <param name="labelID">The label identifier.</param>
         /// <returns>returns the result</returns>
         [HttpPut]
+        [Route("{labelID}")]
         public async Task<IActionResult> UpdateLabel(LabelRequest labelRequest, int labelID)
         {
             try

@@ -50,7 +50,7 @@ namespace RepositoryLayer.Interface
         /// <param name="noteID">The note identifier.</param>
         /// <param name="userID">The user identifier.</param>
         /// <returns></returns>
-        Task<NoteResponse> IsArchieve(bool IsArchieve,int noteID, string userID);
+        Task<NoteResponse> IsArchieve(IsArchieveModel isArchieve,int noteID, string userID);
         /// <summary>
         /// Gets the archieve notes.
         /// </summary>
@@ -64,7 +64,7 @@ namespace RepositoryLayer.Interface
         /// <param name="noteID">The note identifier.</param>
         /// <param name="userID">The user identifier.</param>
         /// <returns></returns>
-        Task<NoteResponse> IsTrash(bool IsTrash,int noteID, string userID);
+        Task<NoteResponse> IsTrash(IsTrashModel isTrash,int noteID, string userID);
         /// <summary>
         /// Restores the notes.
         /// </summary>
@@ -84,7 +84,7 @@ namespace RepositoryLayer.Interface
         /// <param name="noteID">The note identifier.</param>
         /// <param name="userID">The user identifier.</param>
         /// <returns></returns>
-        Task<NoteResponse> IsPin(int noteID, string userID);
+        Task<NoteResponse> IsPin(IsPinModel isPin ,int noteID, string userID);
         /// <summary>
         /// Gets the pin notes.
         /// </summary>
@@ -99,7 +99,7 @@ namespace RepositoryLayer.Interface
         /// <param name="noteID">The note identifier.</param>
         /// <param name="userID">The user identifier.</param>
         /// <returns></returns>
-        Task<NoteResponse> ChangeColor(string color, int noteID, string userID);
+        Task<NoteResponse> ChangeColor(ColorModel color, int noteID, string userID);
         /// <summary>
         /// Sets the reminder.
         /// </summary>
@@ -107,7 +107,7 @@ namespace RepositoryLayer.Interface
         /// <param name="noteID">The note identifier.</param>
         /// <param name="userID">The user identifier.</param>
         /// <returns></returns>
-        Task<NoteResponse> SetReminder(DateTime reminder, int noteID, string userID);
+        Task<NoteResponse> SetReminder(ReminderModel reminder, int noteID, string userID);
         /// <summary>
         /// Removes the reminder.
         /// </summary>
@@ -115,6 +115,13 @@ namespace RepositoryLayer.Interface
         /// <param name="userID">The user identifier.</param>
         /// <returns></returns>
         Task<NoteResponse> RemoveReminder(int noteID, string userID);
+        /// <summary>
+        /// Uploads the image.
+        /// </summary>
+        /// <param name="noteID">The note identifier.</param>
+        /// <param name="userID">The user identifier.</param>
+        /// <returns></returns>
+        Task<NoteResponse> UploadImage(ImageModel image,int noteID, string userID);
         
     }
 }

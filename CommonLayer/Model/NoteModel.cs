@@ -9,6 +9,7 @@ namespace CommonLayer.Model
     public class NoteModel
     {
         [Key]
+        
         public int NoteID { get; set; }
 
         /// <summary>
@@ -18,6 +19,7 @@ namespace CommonLayer.Model
         /// The user identifier.
         /// </value>
         [ForeignKey("RegistrationModel")]
+       
         public string UserID { get; set; }
 
         /// <summary>
@@ -26,6 +28,7 @@ namespace CommonLayer.Model
         /// <value>
         /// The title.
         /// </value>
+        
         [Column(TypeName = "nvarchar(150)")]
         public string Title { get; set; }
 
@@ -35,6 +38,7 @@ namespace CommonLayer.Model
         /// <value>
         /// The description.
         /// </value>
+       
         [Column(TypeName = "nvarchar(150)")]
         public string Description { get; set; }
 
@@ -44,6 +48,7 @@ namespace CommonLayer.Model
         /// <value>
         /// The reminder.
         /// </value>
+        
         [Column(TypeName = "DateTime")]
         public DateTime? Reminder { get; set; }
 
@@ -61,6 +66,7 @@ namespace CommonLayer.Model
         /// <value>
         /// The color.
         /// </value>
+        
         [RegularExpression(@"^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$")]
         [Column(TypeName = "nvarchar(150)")]
         public string Color { get; set; }
@@ -71,6 +77,7 @@ namespace CommonLayer.Model
         /// <value>
         ///   <c>true</c> if this instance is archive; otherwise, <c>false</c>.
         /// </value>
+        
         public bool IsArchive { get; set; }
 
         /// <summary>
@@ -79,6 +86,8 @@ namespace CommonLayer.Model
         /// <value>
         ///   <c>true</c> if this instance is pin; otherwise, <c>false</c>.
         /// </value>
+        /// 
+       
         public bool IsPin { get; set; }
 
         /// <summary>
@@ -87,6 +96,8 @@ namespace CommonLayer.Model
         /// <value>
         ///   <c>true</c> if this instance is trash; otherwise, <c>false</c>.
         /// </value>
+        /// 
+        
         public bool IsTrash { get; set; }
 
         /// <summary>

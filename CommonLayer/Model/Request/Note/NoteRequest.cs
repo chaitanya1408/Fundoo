@@ -7,9 +7,10 @@ namespace CommonLayer.Model.Request.Note
 {
     public class NoteRequest
     {
+        [Required]
         public string Title { get; set; }
 
-        
+        [Required]
         public string Description { get; set; }
 
         
@@ -18,16 +19,16 @@ namespace CommonLayer.Model.Request.Note
        
         public int Collaborator { get; set; }
 
-        
+        [Required]
         [RegularExpression("^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$")]
         public string Color { get; set; }
 
-       
+       [Required]
         public bool IsArchive { get; set; }
 
-        
+        [Required]
         public bool IsPin { get; set; }
-
+        [Required]
         public bool IsTrash { get; set; }
 
         

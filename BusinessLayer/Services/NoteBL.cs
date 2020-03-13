@@ -148,7 +148,7 @@ namespace BusinessLayer.Services
                 throw new Exception(exception.Message);
             }
         }
-        public async Task<NoteResponse>IsArchieve(bool IsArchieve,int noteID,string userID)
+        public async Task<NoteResponse>IsArchieve(IsArchieveModel isArchieve,int noteID,string userID)
         {
             try
             {
@@ -156,7 +156,7 @@ namespace BusinessLayer.Services
                 if (userID != null)
                 {
                     //if usrerid is not null then pass that id to Respository layer method to display notes of that user
-                    return await this.noteRL.IsArchieve(IsArchieve,noteID, userID);
+                    return await this.noteRL.IsArchieve(isArchieve,noteID, userID);
                 }
                 else
                 {
@@ -188,13 +188,13 @@ namespace BusinessLayer.Services
                 throw new Exception(e.Message);
             }
         }
-        public async Task<NoteResponse> IsTrash(bool IsTrash,int noteID, string userID)
+        public async Task<NoteResponse> IsTrash(IsTrashModel isTrash,int noteID, string userID)
         {
             try
             {
                 if (userID != null)
                 {
-                    return await this.noteRL.IsTrash(IsTrash,noteID, userID);
+                    return await this.noteRL.IsTrash(isTrash,noteID, userID);
                 }
                 else
                 {
@@ -242,13 +242,13 @@ namespace BusinessLayer.Services
                 throw new Exception(e.Message);
             }
         }
-        public async Task<NoteResponse>IsPin(int noteID,string userID)
+        public async Task<NoteResponse>IsPin(IsPinModel ispin,int noteID,string userID)
         {
             try
             {
                 if (userID != null)
                 {
-                    return await this.noteRL.IsPin(noteID, userID);
+                    return await this.noteRL.IsPin(ispin,noteID, userID);
                 }
                 else
                 {
@@ -278,7 +278,7 @@ namespace BusinessLayer.Services
                 throw new Exception(e.Message);
             }
         }
-        public async Task<NoteResponse>ChangeColor(string color,int noteID,String userID)
+        public async Task<NoteResponse>ChangeColor(ColorModel color,int noteID,String userID)
         {
             try
             {
@@ -296,7 +296,7 @@ namespace BusinessLayer.Services
                 throw new Exception(e.Message);
             }
         }
-        public async Task<NoteResponse>SetReminder(DateTime reminder,int noteID,string userID)
+        public async Task<NoteResponse>SetReminder(ReminderModel reminder,int noteID,string userID)
         {
             try
             {
@@ -332,15 +332,23 @@ namespace BusinessLayer.Services
                 throw new Exception(e.Message);
             }
         }
-        //public async Task<NoteModel>UploadImage(NoteModel noteModel,int noteID,string userID)
-        //{
-        //    try
-        //    {
-        //        if (userID != null)
-        //        {
-
-        //        }
-        //    }
-        //}
+        public async Task<NoteResponse>UploadImage(int noteID,string userID)
+        {
+            try
+            {
+                if (userID != null)
+                {
+                    return null;   
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
     } 
 }

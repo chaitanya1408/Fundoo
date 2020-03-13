@@ -75,9 +75,6 @@ namespace CommonLayer.Model.Response.Note
         /// </value>
         public string Image { get; set; }
 
-        
-      
-
         /// <summary>
         /// Gets or sets the labels.
         /// </summary>
