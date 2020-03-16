@@ -67,41 +67,69 @@ namespace RepositoryLayer.Services
                         IsPin = requestNote.IsPin,
                         IsTrash = requestNote.IsTrash,
                     };
-
-                    var noteInfo = new NoteModel()
+                    if (data.Collaborator != null)
                     {
-                        UserID = userID,
-                        Title = data.Title,
-                        Description = data.Description,
-                        Collaborators = 1,
-                        Color = data.Color,
-                        Reminder = data.Reminder,
-                        Image = data.Image,
-                        IsArchive = data.IsArchive,
-                        IsPin = data.IsPin,
-                        IsTrash = data.IsTrash,
-                        CreatedDate = DateTime.Now,
-                        ModifiedDate = DateTime.Now
-                    };
-                    
-                    // add new note in tabel
-                    this.authenticationContext.Note.Add(noteInfo);
+                        var noteInfo = new NoteModel()
+                        {
+                            UserID = userID,
+                            Title = data.Title,
+                            Description = data.Description,
+                            Collaborators = data.Collaborator,
+                            Color = data.Color,
+                            Reminder = data.Reminder,
+                            Image = data.Image,
+                            IsArchive = data.IsArchive,
+                            IsPin = data.IsPin,
+                            IsTrash = data.IsTrash,
+                            CreatedDate = DateTime.Now,
+                            ModifiedDate = DateTime.Now
+                        };
 
-                    // save the changes in database
-                    await this.authenticationContext.SaveChangesAsync();
 
-                    var colaborator = new ColaboratorModel()
+                        // add new note in tabel
+                        this.authenticationContext.Note.Add(noteInfo);
+
+                        // save the changes in database
+                        await this.authenticationContext.SaveChangesAsync();
+
+                        var user = this.authenticationContext.UserDataTable.Where(s => s.Email == noteInfo.UserID);
+
+                        var colaborator = new ColaboratorModel()
+                        {
+                            UserID = userID,
+                            NoteID = noteInfo.NoteID,
+                            CreatedDate = DateTime.Now,
+                            ModifiedDate = DateTime.Now
+                        };
+                        this.authenticationContext.Colaborator.Add(colaborator) ;
+                        await this.authenticationContext.SaveChangesAsync();
+
+                        NoteResponse nr = this.GetNoteResponse(userID, noteInfo);
+                        return nr;
+                    }
+                    else
                     {
-                        UserID = userID,
-                        NoteID = noteInfo.NoteID,
-                        CreatedDate = DateTime.Now,
-                        ModifiedDate=DateTime.Now                        
-                    };
-                    //this.authenticationContext.Note.Add(noteInfo) ;
-                    await this.authenticationContext.SaveChangesAsync();
+                        var noteInfo = new NoteModel()
+                        {
+                            UserID = userID,
+                            Title = data.Title,
+                            Description = data.Description,
+                            Collaborators = data.Collaborator,
+                            Color = data.Color,
+                            Reminder = data.Reminder,
+                            Image = data.Image,
+                            IsArchive = data.IsArchive,
+                            IsPin = data.IsPin,
+                            IsTrash = data.IsTrash,
+                            CreatedDate = DateTime.Now,
+                            ModifiedDate = DateTime.Now
+                        };
+                        this.authenticationContext.Note.Add(noteInfo);
+                        await this.authenticationContext.SaveChangesAsync();
 
-                    NoteResponse nr = this.GetNoteResponse(userID, noteInfo);
-                    return nr;
+                        NoteResponse nr = this.GetNoteResponse(userID, noteInfo);
+                        return nr;
+                    }
 
                 }
                 else
@@ -268,7 +296,6 @@ namespace RepositoryLayer.Services
 
                         list.Add(notes);
                     }
-
                     // returns the list
                     return list;
                 }

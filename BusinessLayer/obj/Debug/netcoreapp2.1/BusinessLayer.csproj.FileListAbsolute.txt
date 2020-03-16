@@ -1,13 +1,3 @@
-C:\Users\admin\source\repos\FundooApp\BusinessLayer\bin\Debug\netcoreapp2.1\BusinessLayer.deps.json
-C:\Users\admin\source\repos\FundooApp\BusinessLayer\bin\Debug\netcoreapp2.1\BusinessLayer.dll
-C:\Users\admin\source\repos\FundooApp\BusinessLayer\bin\Debug\netcoreapp2.1\BusinessLayer.pdb
-C:\Users\admin\source\repos\FundooApp\BusinessLayer\bin\Debug\netcoreapp2.1\CommonLayer.dll
-C:\Users\admin\source\repos\FundooApp\BusinessLayer\bin\Debug\netcoreapp2.1\RepositoryLayer.dll
-C:\Users\admin\source\repos\FundooApp\BusinessLayer\bin\Debug\netcoreapp2.1\CommonLayer.pdb
-C:\Users\admin\source\repos\FundooApp\BusinessLayer\bin\Debug\netcoreapp2.1\RepositoryLayer.pdb
 C:\Users\admin\source\repos\FundooApp\BusinessLayer\obj\Debug\netcoreapp2.1\BusinessLayer.csprojAssemblyReference.cache
 C:\Users\admin\source\repos\FundooApp\BusinessLayer\obj\Debug\netcoreapp2.1\BusinessLayer.AssemblyInfoInputs.cache
 C:\Users\admin\source\repos\FundooApp\BusinessLayer\obj\Debug\netcoreapp2.1\BusinessLayer.AssemblyInfo.cs
-C:\Users\admin\source\repos\FundooApp\BusinessLayer\obj\Debug\netcoreapp2.1\BusinessLayer.csproj.CopyComplete
-C:\Users\admin\source\repos\FundooApp\BusinessLayer\obj\Debug\netcoreapp2.1\BusinessLayer.dll
-C:\Users\admin\source\repos\FundooApp\BusinessLayer\obj\Debug\netcoreapp2.1\BusinessLayer.pdb
