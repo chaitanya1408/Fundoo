@@ -7,7 +7,7 @@ using CommonLayer.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using CommonLayer.Model.Account;
+using CommonLayer.Model.AccountModels;
 
 namespace FundooApp.Controllers
 {

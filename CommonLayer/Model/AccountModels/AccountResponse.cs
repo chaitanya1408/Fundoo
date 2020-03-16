@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace CommonLayer.Model.Account
+namespace CommonLayer.Model.AccountModels
 {
     public class AccountResponse
     {

@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace CommonLayer.Model.Account
+namespace CommonLayer.Model.AccountModels
 {
-    public class ResetPasswordModel
+    public class LoginModel
     {
         [Required]
-        public string Password { get; set; }
+        public string EmailId { get; set; }
         [Required]
-        public string Token { get; set; }
+        public string Password { get; set; }
     }
 }

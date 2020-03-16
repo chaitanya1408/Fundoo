@@ -3,7 +3,6 @@ C:\Users\admin\source\repos\FundooApp\CommonLayer\bin\Debug\netcoreapp2.1\Common
 C:\Users\admin\source\repos\FundooApp\CommonLayer\bin\Debug\netcoreapp2.1\CommonLayer.runtimeconfig.dev.json
 C:\Users\admin\source\repos\FundooApp\CommonLayer\bin\Debug\netcoreapp2.1\CommonLayer.dll
 C:\Users\admin\source\repos\FundooApp\CommonLayer\bin\Debug\netcoreapp2.1\CommonLayer.pdb
-C:\Users\admin\source\repos\FundooApp\CommonLayer\obj\Debug\netcoreapp2.1\CommonLayer.csprojAssemblyReference.cache
 C:\Users\admin\source\repos\FundooApp\CommonLayer\obj\Debug\netcoreapp2.1\CommonLayer.AssemblyInfoInputs.cache
 C:\Users\admin\source\repos\FundooApp\CommonLayer\obj\Debug\netcoreapp2.1\CommonLayer.AssemblyInfo.cs
 C:\Users\admin\source\repos\FundooApp\CommonLayer\obj\Debug\netcoreapp2.1\CommonLayer.dll

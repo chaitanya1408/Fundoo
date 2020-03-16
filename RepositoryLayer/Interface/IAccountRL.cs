@@ -1,5 +1,5 @@
 ﻿using CommonLayer.Model;
-using CommonLayer.Model.Account;
+using CommonLayer.Model.AccountModels;
 using System;
 using System.Collections.Generic;
 using System.Text;

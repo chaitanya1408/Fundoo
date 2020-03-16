@@ -1,12 +1,14 @@
 ﻿using CommonLayer.Model;
-using CommonLayer.Model.Account;
+
 using CommonLayer.Model.Request.Note;
 using CommonLayer.Model.Response;
 using CommonLayer.Model.Response.Note;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using RepositoryLayer.Context;
+using RepositoryLayer.ImageUpload;
 using RepositoryLayer.Interface;
 using System;
 using System.Collections.Generic;
@@ -65,13 +67,13 @@ namespace RepositoryLayer.Services
                         IsPin = requestNote.IsPin,
                         IsTrash = requestNote.IsTrash,
                     };
-                    
+
                     var noteInfo = new NoteModel()
                     {
                         UserID = userID,
                         Title = data.Title,
                         Description = data.Description,
-                        Collaborators = 0,
+                        Collaborators = 1,
                         Color = data.Color,
                         Reminder = data.Reminder,
                         Image = data.Image,
@@ -81,21 +83,32 @@ namespace RepositoryLayer.Services
                         CreatedDate = DateTime.Now,
                         ModifiedDate = DateTime.Now
                     };
-
+                    
                     // add new note in tabel
                     this.authenticationContext.Note.Add(noteInfo);
 
                     // save the changes in database
                     await this.authenticationContext.SaveChangesAsync();
 
+                    var colaborator = new ColaboratorModel()
+                    {
+                        UserID = userID,
+                        NoteID = noteInfo.NoteID,
+                        CreatedDate = DateTime.Now,
+                        ModifiedDate=DateTime.Now                        
+                    };
+                    //this.authenticationContext.Note.Add(noteInfo) ;
+                    await this.authenticationContext.SaveChangesAsync();
 
                     NoteResponse nr = this.GetNoteResponse(userID, noteInfo);
                     return nr;
+
                 }
                 else
                 {
                     throw new Exception("Note is not created");
                 }
+                
             }
             catch (Exception exception)
             {
@@ -172,10 +185,11 @@ namespace RepositoryLayer.Services
                     {
                         note.Description = noteRequest.Description;
                     }
-
-                    // check whether user entered value for collaborator or not
-                    
-
+                    //check whether colaboraterequest is gereater hit or not
+                    if (noteRequest.Collaborator > 0)
+                    {
+                        note.Collaborators = noteRequest.Collaborator;
+                    }
                     // check whether user entered value for color or not
                     if (noteRequest.Color != null && noteRequest.Color != string.Empty)
                     {
@@ -440,7 +454,7 @@ namespace RepositoryLayer.Services
             {
                 //get all the notes
                
-                
+
                 var note = this.authenticationContext.Note.Where(s => s.UserID == userID && s.NoteID == noteID).FirstOrDefault();
                 //check whether data is null or not
                 if (note != null)
@@ -544,15 +558,38 @@ namespace RepositoryLayer.Services
                 throw new Exception(e.Message);
             }
         }
-        public async Task<NoteResponse>UploadPicture(ImageModel image,int noteID,string userID)
+
+        public async Task<NoteResponse> UploadImage(int noteID, string userID,IFormFile file)
         {
             try
             {
+                var note = this.authenticationContext.Note.Where(s => s.UserID == userID && s.NoteID == noteID).FirstOrDefault();
 
+                if (note != null && note.IsTrash == false)
+                {
+                    UploadImage imageUpload = new UploadImage(this.applicationSetting.APIkey, this.applicationSetting.APISecret, this.applicationSetting.CloudName);
+
+                    var url = imageUpload.Upload(file);
+
+                    note.Image = url;
+                    note.ModifiedDate = DateTime.Now;
+
+                    this.authenticationContext.Note.Update(note);
+
+                    await this.authenticationContext.SaveChangesAsync();
+
+                    NoteResponse data = this.GetNoteResponse(userID, note);
+
+                    return data;
+                }
+                else
+                {
+                    return null;
+                }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-
+                throw new Exception(e.Message);
             }
         }
         public async Task<NoteResponse>RemoveReminder(int noteID,string userID)
@@ -580,46 +617,53 @@ namespace RepositoryLayer.Services
             }
 
         }
-       
-            
+        
+
         private NoteResponse GetNoteResponse(string userID, NoteModel note)
         {
-            // get labels for Note
-            var labelList = this.authenticationContext.NoteLabel.Where(s => s.UserID == userID && s.NoteID == note.NoteID);
-
-            // creating list for label
-            var labels = new List<LabelResponse>();
-
-            // iteartes the loop for each label for note
-            foreach (var data in labelList)
+            try
             {
-                // get the label info
-                var label = new LabelResponse()
+                // get labels for Note
+                var labelList = this.authenticationContext.NoteLabel.Where(s => s.UserID == userID && s.NoteID == note.NoteID);
+
+                // creating list for label
+                var labels = new List<LabelResponse>();
+
+                // iteartes the loop for each label for note
+                foreach (var data in labelList)
                 {
-                    ID = data.LabelID,
-                    Label = data.Label,
+                    // get the label info
+                    var label = new LabelResponse()
+                    {
+                        ID = data.LabelID,
+                        Label = data.Label,
+                    };
+
+                    // add the label info into label list
+                    labels.Add(label);
+                }
+
+                // get the required values of note
+                var notes = new NoteResponse()
+                {
+                    NoteID = note.NoteID,
+                    Title = note.Title,
+                    Description = note.Description,
+                    Color = note.Color,
+                    Image = note.Image,
+                    IsArchive = note.IsArchive,
+                    IsPin = note.IsPin,
+                    IsTrash = note.IsTrash,
+                    Reminder = note.Reminder,
+                    Labels = labels
                 };
-
-                // add the label info into label list
-                labels.Add(label);
+                // return the note info
+                return notes;
             }
-
-            // get the required values of note
-            var notes = new NoteResponse()
+            catch(Exception e)
             {
-                NoteID = note.NoteID,
-                Title = note.Title,
-                Description = note.Description,
-                 Color = note.Color,
-                Image = note.Image,
-                IsArchive = note.IsArchive,
-                IsPin = note.IsPin,
-                IsTrash = note.IsTrash,
-                Reminder = note.Reminder,
-                Labels = labels
-            };
-            // return the note info
-            return notes;
+                throw new Exception(e.Message);
+            }
         }
     }
 }

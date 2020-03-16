@@ -1,9 +1,9 @@
 ﻿using BusinessLayer.Interface;
 using CommonLayer.Model;
-using CommonLayer.Model.Account;
 using CommonLayer.Model.Request.Note;
 using CommonLayer.Model.Response;
 using CommonLayer.Model.Response.Note;
+using Microsoft.AspNetCore.Http;
 using RepositoryLayer.Interface;
 using System;
 using System.Collections.Generic;
@@ -332,17 +332,17 @@ namespace BusinessLayer.Services
                 throw new Exception(e.Message);
             }
         }
-        public async Task<NoteResponse>UploadImage(int noteID,string userID)
+        public async Task<NoteResponse>UploadImage(int noteID,string userID,IFormFile file)
         {
             try
             {
                 if (userID != null)
                 {
-                    return null;   
+                    return await this.noteRL.UploadImage(noteID, userID,file); 
                 }
                 else
                 {
-                    return null;
+                    throw new Exception("user not found");
                 }
             }
             catch(Exception e)
@@ -350,5 +350,16 @@ namespace BusinessLayer.Services
                 throw new Exception(e.Message);
             }
         }
+
+        //public async Task<NoteResponse> RemoveImage(ImageModel image, int noteID, string userID)
+        //{
+        //    try
+        //    {
+        //        if (userID != null)
+        //        {
+                    
+        //        }
+        //    }
+        //}
     } 
 }

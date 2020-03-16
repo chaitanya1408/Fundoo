@@ -1,7 +1,7 @@
 ﻿using CommonLayer.Model;
-using CommonLayer.Model.Account;
 using CommonLayer.Model.Request.Note;
 using CommonLayer.Model.Response.Note;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -121,7 +121,15 @@ namespace RepositoryLayer.Interface
         /// <param name="noteID">The note identifier.</param>
         /// <param name="userID">The user identifier.</param>
         /// <returns></returns>
-        Task<NoteResponse> UploadImage(ImageModel image,int noteID, string userID);
+        Task<NoteResponse> UploadImage(int noteID, string userID,IFormFile file);
+        /// <summary>
+        /// Removes the image.
+        /// </summary>
+        /// <param name="image">The image.</param>
+        /// <param name="noteID">The note identifier.</param>
+        /// <param name="userID">The user identifier.</param>
+        /// <returns></returns>
+        //Task<NoteResponse> RemoveImage(ImageModel image, int noteID, string userID);
         
     }
 }

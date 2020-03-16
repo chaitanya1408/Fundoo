@@ -462,6 +462,7 @@
       },
       "CommonLayer/1.0.0": {
         "dependencies": {
+          "CloudinaryDotNet": "1.10.0",
           "Experimental.System.Messaging": "1.0.0",
           "Microsoft.AspNetCore.App": "2.1.1",
           "Microsoft.Extensions.Identity.Stores": "2.1.1"

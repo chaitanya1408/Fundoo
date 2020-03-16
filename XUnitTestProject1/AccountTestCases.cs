@@ -1,6 +1,6 @@
 using BusinessLayer.Interface;
 using BusinessLayer.Services;
-using CommonLayer.Model.Account;
+using CommonLayer.Model.AccountModels;
 using FundooApp.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Moq;

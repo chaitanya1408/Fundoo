@@ -1,5 +1,4 @@
 ﻿using CommonLayer.Model;
-using CommonLayer.Model.Account;
 using CommonLayer.Model.Request.Note;
 using CommonLayer.Model.Response;
 using CommonLayer.Model.Response.Note;
@@ -53,14 +52,14 @@ namespace BusinessLayer.Interface
         /// <param name="noteID">The note identifier.</param>
         /// <param name="userID">The user identifier.</param>
         /// <returns></returns>
-        Task<NoteResponse> IsArchieve(IsArchieveModel isArchieve,int noteID, string userID);
+        Task<NoteResponse> IsArchieve(IsArchieveModel isArchieve, int noteID, string userID);
         /// <summary>
         /// Gets the archieve notes.
         /// </summary>
         /// <param name="noteRequest">The note request.</param>
         /// <param name="userID">The user identifier.</param>
         /// <returns></returns>
-        IList<NoteResponse> GetArchieveNotes( string userID);
+        IList<NoteResponse> GetArchieveNotes(string userID);
         /// <summary>
         /// Determines whether the specified note identifier is trash.
         /// </summary>
@@ -74,7 +73,7 @@ namespace BusinessLayer.Interface
         /// <param name="noteResponse">The note response.</param>
         /// <param name="userID">The user identifier.</param>
         /// <returns></returns>
-        Task<NoteResponse> RestoreNotes(int noteID,string userID);
+        Task<NoteResponse> RestoreNotes(int noteID, string userID);
         /// <summary>
         /// Bulks the restore.
         /// </summary>
@@ -87,7 +86,7 @@ namespace BusinessLayer.Interface
         /// <param name="noteID">The note identifier.</param>
         /// <param name="userID">The user identifier.</param>
         /// <returns></returns>
-        Task<NoteResponse> IsPin(IsPinModel isPin,int noteID, string userID);
+        Task<NoteResponse> IsPin(IsPinModel isPin, int noteID, string userID);
         /// <summary>
         /// Gets the pin notes.
         /// </summary>
@@ -110,7 +109,7 @@ namespace BusinessLayer.Interface
         /// <param name="noteID">The note identifier.</param>
         /// <param name="userID">The user identifier.</param>
         /// <returns></returns>
-        Task<NoteResponse> SetReminder(ReminderModel reminder,int noteID, string userID);
+        Task<NoteResponse> SetReminder(ReminderModel reminder, int noteID, string userID);
         /// <summary>
         /// Removes the reminder.
         /// </summary>
@@ -125,7 +124,7 @@ namespace BusinessLayer.Interface
         /// <param name="nodeID">The node identifier.</param>
         /// <param name="userID">The user identifier.</param>
         /// <returns></returns>
-        Task<NoteResponse> UploadImage(int nodeID, string userID);
-        
+        Task<NoteResponse> UploadImage(int nodeID, string userID, IFormFile file);
     }
+       
 }

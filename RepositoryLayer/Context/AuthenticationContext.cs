@@ -39,5 +39,6 @@ namespace RepositoryLayer.Context
         /// The note label.
         /// </value>
         public DbSet<NoteLabelModel> NoteLabel { get; set; }
+        public DbSet<ColaboratorModel> Colaborator { get; set; }
     }
 }

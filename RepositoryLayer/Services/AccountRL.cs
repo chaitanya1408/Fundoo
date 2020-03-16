@@ -1,4 +1,4 @@
-﻿using CommonLayer.Model.Account;
+﻿
 using Microsoft.AspNetCore.Identity;
 using RepositoryLayer.Interface;
 using CommonLayer.Model;
@@ -14,6 +14,7 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.Extensions.Options;
 using System.Linq;
 using CommonLayer.MSMQ;
+using CommonLayer.Model.AccountModels;
 
 namespace RepositoryLayer.Services
 {
@@ -32,7 +33,6 @@ namespace RepositoryLayer.Services
         public async Task<bool> ForgetPassword(ForgetPasswordModel forgetPasswordModel)
         {
             var user = await this.userManager.FindByEmailAsync(forgetPasswordModel.EmailID);
-
             MSMQSender msmq = new MSMQSender();
 
             if (user != null)
@@ -51,6 +51,8 @@ namespace RepositoryLayer.Services
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var securityToken = tokenHandler.CreateToken(tokenDescriptor);
                 var token = tokenHandler.WriteToken(securityToken);
+               
+                msmq.SendToQueue(forgetPasswordModel.EmailID, token);
                 return true;
             }
             else
