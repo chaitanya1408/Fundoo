@@ -479,9 +479,6 @@ namespace RepositoryLayer.Services
         {
             try
             {
-                //get all the notes
-               
-
                 var note = this.authenticationContext.Note.Where(s => s.UserID == userID && s.NoteID == noteID).FirstOrDefault();
                 //check whether data is null or not
                 if (note != null)

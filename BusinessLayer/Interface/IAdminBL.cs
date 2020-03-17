@@ -9,7 +9,9 @@ namespace BusinessLayer.Interface
 {
     public interface IAdminBL
     {
-        Task<AccountResponse> GetAllUser(AdminModel adminModel);
+        Task<bool> Register(RegistrationModel registrationModel);
+        Task<AccountResponse> Login(LoginModel loginModel);
+        //IList<AccountResponse> GetAllUSer(AdminModel adminModel);
     }
 }
 

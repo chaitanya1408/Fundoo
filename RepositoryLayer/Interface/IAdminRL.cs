@@ -9,8 +9,9 @@ namespace RepositoryLayer.Interface
 {
     public interface IAdminRL
     {
-        Task<AccountResponse> GetAllUser(AdminModel adminModel);
+        Task<bool> Register(RegistrationModel registrationModel);
 
-        
+        Task<AccountResponse> Login(LoginModel loginModel);
+        //IList<AccountResponse> GetAllUser(AdminModel adminModel);
     }
 }

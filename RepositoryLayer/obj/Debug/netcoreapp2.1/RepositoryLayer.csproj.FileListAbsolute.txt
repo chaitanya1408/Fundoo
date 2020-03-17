@@ -1,3 +1,13 @@
+C:\Users\admin\source\repos\FundooApp\RepositoryLayer\bin\Debug\netcoreapp2.1\RepositoryLayer.deps.json
+C:\Users\admin\source\repos\FundooApp\RepositoryLayer\bin\Debug\netcoreapp2.1\RepositoryLayer.runtimeconfig.json
+C:\Users\admin\source\repos\FundooApp\RepositoryLayer\bin\Debug\netcoreapp2.1\RepositoryLayer.runtimeconfig.dev.json
+C:\Users\admin\source\repos\FundooApp\RepositoryLayer\bin\Debug\netcoreapp2.1\RepositoryLayer.dll
+C:\Users\admin\source\repos\FundooApp\RepositoryLayer\bin\Debug\netcoreapp2.1\RepositoryLayer.pdb
+C:\Users\admin\source\repos\FundooApp\RepositoryLayer\bin\Debug\netcoreapp2.1\CommonLayer.dll
+C:\Users\admin\source\repos\FundooApp\RepositoryLayer\bin\Debug\netcoreapp2.1\CommonLayer.pdb
 C:\Users\admin\source\repos\FundooApp\RepositoryLayer\obj\Debug\netcoreapp2.1\RepositoryLayer.csprojAssemblyReference.cache
 C:\Users\admin\source\repos\FundooApp\RepositoryLayer\obj\Debug\netcoreapp2.1\RepositoryLayer.AssemblyInfoInputs.cache
 C:\Users\admin\source\repos\FundooApp\RepositoryLayer\obj\Debug\netcoreapp2.1\RepositoryLayer.AssemblyInfo.cs
+C:\Users\admin\source\repos\FundooApp\RepositoryLayer\obj\Debug\netcoreapp2.1\RepositoryLayer.csproj.CopyComplete
+C:\Users\admin\source\repos\FundooApp\RepositoryLayer\obj\Debug\netcoreapp2.1\RepositoryLayer.dll
+C:\Users\admin\source\repos\FundooApp\RepositoryLayer\obj\Debug\netcoreapp2.1\RepositoryLayer.pdb

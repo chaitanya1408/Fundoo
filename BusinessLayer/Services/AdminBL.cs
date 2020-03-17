@@ -17,17 +17,17 @@ namespace BusinessLayer.Services
         {
             this.adminRL = adminRL;
         }
-        public async Task<AccountResponse> GetAllUser(AdminModel adminModel)
+        public Task<bool> Register(RegistrationModel registrationModel)
         {
             try
             {
-                if (adminModel != null)
+                if (registrationModel != null)
                 {
-                    return await this.adminRL.GetAllUser(adminModel);
+                    return this.adminRL.Register(registrationModel);
                 }
                 else
                 {
-                    return null;
+                    throw new Exception("Data Required");
                 }
             }
             catch(Exception e)
@@ -36,6 +36,33 @@ namespace BusinessLayer.Services
             }
         }
 
-        
+        public Task<AccountResponse>Login(LoginModel loginModel)
+        {
+            try
+            {
+                if (loginModel != null)
+                {
+                    return this.adminRL.Login(loginModel);
+                }
+                else
+                {
+                    throw new Exception("Enter valid EmailId and Pasword");
+                }
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+        //public IList<AccountResponse> GetAllUser(AdminModel adminModel)
+        //{
+        //    try
+        //    {
+        //        if (AdminModel != null)
+        //        {
+
+        //        }
+        //    }
+        //}
     }
 }
